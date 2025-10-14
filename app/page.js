@@ -5,7 +5,8 @@ export default function Home() {
         🚀 Meu Primeiro App com Next.js e Vercel!
       </h1>
       <p className="text-lg opacity-80 mb-6">
-        Aplicativo criado para testar deploy gratuito no Vercel.
+        Love you my Waffle.
+        Love you Amy :D
       </p>
       <a
         href="https://vercel.com"
