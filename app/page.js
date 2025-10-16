@@ -21,7 +21,7 @@ export default function Home() {
             Book trusted services, <span className="text-blue-600">anytime</span>, anywhere.
           </h1>
           <p className="mt-4 text-gray-600 text-lg">
-            BuddyService helps clients find verified providers, request jobs, and schedule with ease.
+            Buddy Service helps clients find verified providers, request jobs, and schedule with ease.
             Providers manage requests, confirm appointments, and grow their customer base.
           </p>
 

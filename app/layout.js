@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'BuddyService',
+  title: 'Buddy Service',
   description: 'Connect clients and service providers with ease.',
   icons: {
     icon: '/favicon.png', // ✅ Use your new icon here

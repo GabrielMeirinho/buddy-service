@@ -74,7 +74,7 @@ export default function LoginPage() {
       {/* Logo & Brand Name ABOVE card */}
       <div className="flex flex-col items-center mb-4 text-center">
         <img src="/buddy-icon.png" alt="BuddyService" className="h-12 w-12 rounded-full mb-2" />
-        <span className="font-bold text-gray-900 text-2xl">BuddyService</span>
+        <span className="font-bold text-gray-900 text-2xl">Buddy Service</span>
         <p className="text-gray-600 text-sm mt-1">
           Connect with nearby service providers you can trust.
         </p>
