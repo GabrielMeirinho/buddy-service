@@ -15,7 +15,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Redirect if already logged in
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data?.session) {
@@ -33,18 +32,16 @@ export default function LoginPage() {
       if (!email || !password) throw new Error("Please fill in all fields.");
 
       if (mode === "signup") {
-        // SIGN UP
         const { data, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            data: { role }, // store role inside user_metadata
+            data: { role },
           },
         });
 
         if (signUpError) throw signUpError;
 
-        // Create profile row immediately in profiles table
         if (data.user) {
           await supabase.from("profiles").insert({
             id: data.user.id,
@@ -53,7 +50,6 @@ export default function LoginPage() {
           });
         }
       } else {
-        // LOGIN
         const { error: loginError } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -71,17 +67,18 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#F3F8FF] to-white flex flex-col items-center justify-center p-6">
-      {/* Logo & Brand Name ABOVE card */}
+      {/* Logo + Brand */}
       <div className="flex flex-col items-center mb-4 text-center">
-        <img src="/buddy-icon.png" alt="BuddyService" className="h-12 w-12 rounded-full mb-2" />
-        <span className="font-bold text-gray-900 text-2xl">Buddy Service</span>
-        <p className="text-gray-600 text-sm mt-1">
+        <img src="/buddy-icon.png" alt="BuddyService" className="h-14 w-14 rounded-full mb-2" />
+        <span className="font-bold text-gray-900 text-2xl sm:text-xl tracking-tight">BuddyService</span>
+        <p className="text-gray-700 sm:text-gray-600 text-sm mt-1">
           Connect with nearby service providers you can trust.
         </p>
       </div>
 
+      {/* Card */}
       <div className="w-full max-w-md bg-white border border-blue-100 rounded-2xl shadow-md shadow-blue-50 p-6 space-y-4">
-        <h1 className="text-xl font-bold text-center text-blue-800">
+        <h1 className="text-xl font-bold text-center text-blue-900 sm:text-blue-800">
           {mode === "login" ? "Sign In" : "Create Account"}
         </h1>
 
@@ -93,10 +90,10 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm mb-1">Email</label>
+            <label className="block text-sm font-medium text-blue-900 sm:text-blue-800 mb-1">Email</label>
             <input
               type="email"
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 sm:p-2 text-gray-900"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
@@ -104,10 +101,10 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block text-sm mb-1">Password</label>
+            <label className="block text-sm font-medium text-blue-900 sm:text-blue-800 mb-1">Password</label>
             <input
               type="password"
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 sm:p-2 text-gray-900"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
@@ -116,9 +113,9 @@ export default function LoginPage() {
 
           {mode === "signup" && (
             <div>
-              <label className="block text-sm mb-2">I am signing up as:</label>
+              <label className="block text-sm font-medium text-blue-900 sm:text-blue-800 mb-2">I am signing up as:</label>
               <div className="flex gap-4">
-                <label className="flex items-center gap-2">
+                <label className="flex items-center gap-2 text-gray-900 sm:text-gray-700">
                   <input
                     type="radio"
                     name="role"
@@ -128,7 +125,7 @@ export default function LoginPage() {
                   />
                   Client
                 </label>
-                <label className="flex items-center gap-2">
+                <label className="flex items-center gap-2 text-gray-900 sm:text-gray-700">
                   <input
                     type="radio"
                     name="role"
@@ -145,7 +142,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white text-base sm:text-sm font-medium py-3 sm:py-2 rounded"
           >
             {loading
               ? mode === "login"
@@ -157,13 +154,13 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="text-center text-sm text-gray-600">
+        <div className="text-center text-sm text-gray-700 sm:text-gray-600">
           {mode === "login" ? (
             <>
               Don’t have an account?{" "}
               <button
                 onClick={() => setMode("signup")}
-                className="text-blue-600 underline"
+                className="text-blue-700 underline"
               >
                 Sign Up
               </button>
@@ -173,7 +170,7 @@ export default function LoginPage() {
               Already have an account?{" "}
               <button
                 onClick={() => setMode("login")}
-                className="text-blue-600 underline"
+                className="text-blue-700 underline"
               >
                 Sign In
               </button>

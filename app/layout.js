@@ -1,31 +1,19 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import './globals.css';
+import Header from './components/Header';
 
 export const metadata = {
-  title: 'Buddy Service',
+  title: 'BuddyService',
   description: 'Connect clients and service providers with ease.',
   icons: {
-    icon: '/favicon.png', // ✅ Use your new icon here
+    icon: '/favicon.png', // make sure /public/favicon.png exists
   },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
+        <Header />{/* GLOBAL HEADER */}
         {children}
       </body>
     </html>
