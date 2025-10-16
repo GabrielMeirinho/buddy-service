@@ -69,35 +69,45 @@ export default function Dashboard() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#F3F8FF] to-white p-6">
       <div className="max-w-4xl mx-auto space-y-6">
-        
-        {/* Profile Card */}
-        <div className="bg-white shadow-md shadow-blue-50 border border-blue-100 rounded-2xl p-5 flex items-center gap-5">
-          <img
-            src={avatarUrl}
-            alt="avatar"
-            className="w-16 h-16 rounded-full border border-blue-200 object-cover shadow-sm"
-          />
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-xl font-bold text-blue-900 sm:text-blue-700 truncate">{profile.full_name}</h2>
-              <span className={`text-xs px-2 py-1 rounded-full ${badgeStyle}`}>
+
+        {/* Responsive Profile Card */}
+        <div className="bg-white shadow-md shadow-blue-50 border border-blue-100 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-5">
+          
+          {/* Avatar */}
+          <div className="flex justify-center sm:block">
+            <img
+              src={avatarUrl}
+              alt="avatar"
+              className="w-20 h-20 sm:w-16 sm:h-16 rounded-full border border-blue-200 object-cover shadow-sm"
+            />
+          </div>
+
+          {/* Name, Role, Phone Info */}
+          <div className="flex-1 text-center sm:text-left">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+              <h2 className="text-xl font-bold text-blue-900 sm:text-blue-700 break-words">
+                {profile.full_name}
+              </h2>
+              <span className={`mt-2 sm:mt-0 mx-auto sm:mx-0 text-xs px-2 py-1 rounded-full ${badgeStyle}`}>
                 {profile.role === 'provider' ? 'PROVIDER' : 'CLIENT'}
               </span>
             </div>
-            <p className="text-sm text-gray-900 sm:text-gray-600 truncate">
-              {profile.phone_prefix} {profile.phone_number} • {profile.city}, {profile.country}
+            <p className="text-sm text-gray-900 sm:text-gray-600 mt-2 break-words">
+              {profile.phone_prefix} {profile.phone_number}<br className="sm:hidden" /> {profile.city}, {profile.country}
             </p>
           </div>
-          <div className="flex items-center gap-2">
+
+          {/* Buttons */}
+          <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-2 mt-3 sm:mt-0">
             <Link
               href="/profile"
-              className="text-blue-900 sm:text-blue-700 border border-blue-200 hover:bg-blue-50 px-4 py-2.5 sm:px-3 sm:py-2 rounded-md text-sm font-medium"
+              className="w-full sm:w-auto text-blue-900 sm:text-blue-700 border border-blue-200 hover:bg-blue-50 px-4 py-3 sm:py-2 rounded-md text-sm font-medium text-center"
             >
               Edit profile
             </Link>
             <button
               onClick={logout}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 sm:px-3 sm:py-2 rounded-md text-sm font-medium shadow-sm"
+              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 sm:py-2 rounded-md text-sm font-medium text-center shadow-sm"
             >
               Logout
             </button>
@@ -106,7 +116,9 @@ export default function Dashboard() {
 
         {/* Main Content Placeholder */}
         <div className="bg-white border border-gray-100 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-blue-900 sm:text-blue-700 mb-2">Welcome to your dashboard 👋</h3>
+          <h3 className="text-lg font-semibold text-blue-900 sm:text-blue-700 mb-2">
+            Welcome to your dashboard 👋
+          </h3>
           <p className="text-sm text-gray-900 sm:text-gray-600">
             Here we will display your orders, services, requests and more.
           </p>
