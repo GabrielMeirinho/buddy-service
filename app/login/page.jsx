@@ -1,8 +1,8 @@
 'use client';
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import Link from "next/link";
 
 export default function LoginPage() {
   const supabase = createClient();
@@ -31,6 +31,7 @@ export default function LoginPage() {
 
     try {
       if (!email || !password) throw new Error("Please fill in all fields.");
+
       if (mode === "signup") {
         // SIGN UP
         const { data, error: signUpError } = await supabase.auth.signUp({
@@ -40,9 +41,10 @@ export default function LoginPage() {
             data: { role }, // store role inside user_metadata
           },
         });
+
         if (signUpError) throw signUpError;
 
-        // Create profile row immediately
+        // Create profile row immediately in profiles table
         if (data.user) {
           await supabase.from("profiles").insert({
             id: data.user.id,
@@ -68,9 +70,18 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#F3F8FF] to-white flex items-center justify-center p-6">
+    <main className="min-h-screen bg-gradient-to-b from-[#F3F8FF] to-white flex flex-col items-center justify-center p-6">
+      {/* Logo & Brand Name ABOVE card */}
+      <div className="flex flex-col items-center mb-4 text-center">
+        <img src="/buddy-icon.png" alt="BuddyService" className="h-12 w-12 rounded-full mb-2" />
+        <span className="font-bold text-gray-900 text-2xl">BuddyService</span>
+        <p className="text-gray-600 text-sm mt-1">
+          Connect with nearby service providers you can trust.
+        </p>
+      </div>
+
       <div className="w-full max-w-md bg-white border border-blue-100 rounded-2xl shadow-md shadow-blue-50 p-6 space-y-4">
-        <h1 className="text-2xl font-bold text-center text-blue-800">
+        <h1 className="text-xl font-bold text-center text-blue-800">
           {mode === "login" ? "Sign In" : "Create Account"}
         </h1>
 
@@ -149,7 +160,7 @@ export default function LoginPage() {
         <div className="text-center text-sm text-gray-600">
           {mode === "login" ? (
             <>
-              Don't have an account?{" "}
+              Don’t have an account?{" "}
               <button
                 onClick={() => setMode("signup")}
                 className="text-blue-600 underline"
