@@ -1,11 +1,11 @@
 import './globals.css';
-import Header from './components/Header';
+import LayoutWrapper from './components/LayoutWrapper';
 
 export const metadata = {
   title: 'BuddyService',
   description: 'Connect clients and service providers with ease.',
   icons: {
-    icon: '/favicon.png', // make sure /public/favicon.png exists
+    icon: '/favicon.png', // must exist in /public
   },
 };
 
@@ -13,8 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header />{/* GLOBAL HEADER */}
-        {children}
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
