@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Redirect if already logged in
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data?.session) {
@@ -32,24 +33,22 @@ export default function LoginPage() {
       if (!email || !password) throw new Error("Please fill in all fields.");
 
       if (mode === "signup") {
+        // ✅ SIGN UP USER (Trigger will handle profile creation automatically)
         const { data, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            data: { role },
-          },
+            data: { 
+              role: role, // ✅ Supabase trigger reads this metadata now
+              full_name: email.split("@")[0]
+            }
+          }
         });
 
         if (signUpError) throw signUpError;
 
-        if (data.user) {
-          await supabase.from("profiles").insert({
-            id: data.user.id,
-            full_name: email.split("@")[0],
-            role,
-          });
-        }
       } else {
+        // ✅ LOGIN EXISTING USER
         const { error: loginError } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -57,7 +56,9 @@ export default function LoginPage() {
         if (loginError) throw loginError;
       }
 
+      // ✅ Redirect to dashboard after success
       router.push("/dashboard");
+
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -67,7 +68,7 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#F3F8FF] to-white flex flex-col items-center justify-center p-6">
-      {/* Logo + Brand */}
+      {/* Logo & Brand */}
       <div className="flex flex-col items-center mb-4 text-center">
         <img src="/buddy-icon.png" alt="BuddyService" className="h-14 w-14 rounded-full mb-2" />
         <span className="font-bold text-gray-900 text-2xl sm:text-xl tracking-tight">BuddyService</span>
@@ -90,10 +91,10 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-blue-900 sm:text-blue-800 mb-1">Email</label>
+            <label className="block text-sm mb-1 text-blue-900 sm:text-blue-800">Email</label>
             <input
               type="email"
-              className="w-full border rounded p-2 sm:p-2 text-gray-900"
+              className="w-full border rounded p-2 text-gray-900"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
@@ -101,10 +102,10 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-blue-900 sm:text-blue-800 mb-1">Password</label>
+            <label className="block text-sm mb-1 text-blue-900 sm:text-blue-800">Password</label>
             <input
               type="password"
-              className="w-full border rounded p-2 sm:p-2 text-gray-900"
+              className="w-full border rounded p-2 text-gray-900"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
